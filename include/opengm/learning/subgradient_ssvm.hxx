@@ -210,7 +210,7 @@ namespace opengm {
                 #pragma omp parallel for reduction(+:totalLoss)  
                 #endif
                 for(size_t gmi=0; gmi<nModels; ++gmi){
-                    
+
                     // lock the model
                     #ifdef WITH_OPENMP
                     omp_set_lock(&modelLockUnlock);
@@ -235,6 +235,7 @@ namespace opengm {
                         // append current solution
                         buffer[gmi].push_back(arg);
 
+                    
                         size_t vCount=0;
                         // check which violates
                         for(size_t cc=0; cc<buffer[gmi].size(); ++cc){

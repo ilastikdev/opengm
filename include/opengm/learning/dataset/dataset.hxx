@@ -147,6 +147,7 @@ namespace opengm {
         }
         return sum;
     }
+
     template<class GM, class LOSS, class LOSS_GM>
     template<class INF>
     typename GM::ValueType Dataset<GM, LOSS, LOSS_GM>::getTotalLossParallel(const typename INF::Parameter& para) const {
@@ -164,15 +165,14 @@ namespace opengm {
         LOSS lossFunction(lossParams_[i]);
         const GM& gm = this->getModel(i);
         const std::vector<typename INF::LabelType>& gt =  this->getGT(i);
-
         std::vector<typename INF::LabelType> conf;
         INF inf(gm,para);
         inf.infer();
         inf.arg(conf);
-
         return lossFunction.loss(gm, conf.begin(), conf.end(), gt.begin(), gt.end());
 
     }
+
 
     template<class GM, class LOSS, class LOSS_GM>
     typename GM::ValueType Dataset<GM, LOSS, LOSS_GM>::getLoss(std::vector<typename GM::LabelType> conf, const size_t i) const {
@@ -192,9 +192,9 @@ namespace opengm {
         OPENGM_ASSERT_OP(i, <, gms_.size());
         OPENGM_ASSERT_OP(i, <, gts_.size());
         //std::cout<<"copy gm\n";
-        gmsWithLoss_[i] = gms_[i];    
+        gmsWithLoss_[i] = gms_[i];
         //std::cout<<"copy done\n";
-        LOSS loss(lossParams_[i]);         
+        LOSS loss(lossParams_[i]);
         OPENGM_CHECK_OP(gts_[i].size(),==, gmsWithLoss_[i].numberOfVariables(),"");
         loss.addLoss(gmsWithLoss_[i], gts_[i].begin());
     }

@@ -157,11 +157,12 @@ BundleOptimizer<T>::optimize(Oracle& oracle, Weights& w) {
 
 		t++;
 
-		std::cout << std::endl << "----------------- iteration " << t << std::endl;
+        std::cout << std::endl << "----------------- iteration " << t << std::endl;
 
         Weights w_tm1 = w;
 
-		//std::cout << "current w is " << w_tm1 << std::endl;
+        for(int i=0; i<w_tm1.size();++i)
+            std::cout << "current w is " << w_tm1.getWeight(i) << std::endl;
 
 		// value of L at current w
 		T L_w_tm1 = 0.0;
@@ -172,7 +173,7 @@ BundleOptimizer<T>::optimize(Oracle& oracle, Weights& w) {
 		// get current value and gradient
 		oracle(w_tm1, L_w_tm1, a_t);
 
-		std::cout << "       L(w)              is: " << L_w_tm1 << std::endl;
+        std::cout << "       L(w)              is: " << std::setprecision(12) << L_w_tm1 << std::endl;
 		//std::cout << "      ∂L(w)/∂            is: " << a_t << std::endl;
 
 		// update smallest observed value of regularized L
@@ -206,7 +207,7 @@ BundleOptimizer<T>::optimize(Oracle& oracle, Weights& w) {
 
 		lastMinLower = minLower;
 
-		std::cout  << "          ε   is: " << eps_t << std::endl;
+        std::cout  << "          ε   is: " << eps_t << std::setprecision(6) << std::endl;
 
 		// converged?
 		if (eps_t <= _parameter.min_eps)

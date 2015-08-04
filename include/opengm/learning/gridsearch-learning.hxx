@@ -31,7 +31,8 @@ namespace opengm {
          GridSearchLearner(DATASET&, const Parameter& );
 
          template<class INF>
-         void learn(const typename INF::Parameter& para); 
+         void learn(const typename INF::Parameter& para);
+
          //template<class INF, class VISITOR>
          //void learn(typename INF::Parameter para, VITITOR vis);
 
@@ -73,12 +74,13 @@ namespace opengm {
             for(size_t p=0; p<dataset_.getNumberOfWeights(); ++p){
                modelPara.setWeight(p, para_.parameterLowerbound_[p] + double(itC[p])/double(para_.testingPoints_[p]-1)*(para_.parameterUpperbound_[p]-para_.parameterLowerbound_[p]) );
             }
+
             // Evaluate Loss
             opengm::learning::Weights<double>& mp =  dataset_.getWeights();
             mp = modelPara;
+
             const double loss = dataset_. template getTotalLoss<INF>(para);
            
-
             // **************
 
             if(loss<bestLoss){
@@ -86,7 +88,7 @@ namespace opengm {
                 for(size_t p=0; p<dataset_.getNumberOfWeights(); ++p){
                    std::cout << modelPara[p] <<" ";
                 }
-                std::cout << " ==> ";
+                std::cout << " new best loss ==> ";
                 std::cout << loss << std::endl;
 
                 bestLoss=loss;

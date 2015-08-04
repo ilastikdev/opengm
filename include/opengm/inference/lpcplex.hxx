@@ -247,7 +247,8 @@ LPCplex<GM, ACC>::LPCplex
 {
    if(typeid(OperatorType) != typeid(opengm::Adder)) {
       throw RuntimeError("This implementation does only supports Min-Plus-Semiring and Max-Plus-Semiring.");
-   }     
+   }
+
    parameter_ = para;
    idNodesBegin_.resize(gm_.numberOfVariables());
    unaryFactors_.resize(gm_.numberOfVariables());
@@ -257,6 +258,7 @@ LPCplex<GM, ACC>::LPCplex
    IloInt numberOfElements = 0;
    IloInt numberOfVariableElements = 0;
    IloInt numberOfFactorElements   = 0;
+
    // enumerate variables
    size_t idCounter = 0;
    for(size_t node = 0; node < gm_.numberOfVariables(); ++node) {
@@ -264,6 +266,7 @@ LPCplex<GM, ACC>::LPCplex
       idNodesBegin_[node] = idCounter;
       idCounter += gm_.numberOfLabels(node);
    }
+
    // enumerate factors
    constValue_ = 0;
    for(size_t f = 0; f < gm_.numberOfFactors(); ++f) {
@@ -310,11 +313,11 @@ LPCplex<GM, ACC>::LPCplex
       for(size_t i = 0; i < gm_.numberOfLabels(node); ++i) {
          ValueType t = 0;
          for(size_t n=0; n<unaryFactors_[node].size();++n) {
-            t += gm_[unaryFactors_[node][n]](&i); 
+            t += gm_[unaryFactors_[node][n]](&i);
          }
          OPENGM_ASSERT_OP(idNodesBegin_[node]+i,<,numberOfElements);
          obj[idNodesBegin_[node]+i] = t;
-      } 
+      }
    }
    for(size_t f = 0; f < gm_.numberOfFactors(); ++f) {
       if(gm_[f].numberOfVariables() == 2) {
@@ -391,8 +394,8 @@ LPCplex<GM, ACC>::LPCplex
       cplex_ = IloCplex(model_);
    }
    catch(IloCplex::Exception& e) {
-	throw std::runtime_error("CPLEX exception");
-   } 
+       throw std::runtime_error("CPLEX exception");
+   }
 }
 
 template <class GM, class ACC>

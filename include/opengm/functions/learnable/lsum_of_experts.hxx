@@ -1,7 +1,7 @@
 #pragma once
 #ifndef OPENGM_LEARNABLE_LSUM_OF_EXPERTS_FUNCTION_HXX
 #define OPENGM_LEARNABLE_LSUM_OF_EXPERTS_FUNCTION_HXX
-#warning Due to an ambiguity in the class name this header is obsolet! Please use lweightedsum_of_functions.hxx instead.
+//#warning Due to an ambiguity in the class name this header is obsolet! Please use lweightedsum_of_functions.hxx instead.
 
 #include <algorithm>
 #include <vector>
@@ -77,8 +77,10 @@ LSumOfExperts<T, I, L>::LSumOfExperts
    )
    :   shape_(shape), weights_(&weights), weightIDs_(weightIDs),feat_(feat)
 {
-   OPENGM_ASSERT( size() == feat_[0].size() );
+  //OPENGM_ASSERT( size() == feat_[0].size() );
    OPENGM_ASSERT( weightIDs_.size() == feat_.size() );
+   for(size_t i=0; i<weightIDs_.size();++i)
+      OPENGM_ASSERT( size() == feat_[i].size() );
 }
 
 template <class T, class I, class L>
